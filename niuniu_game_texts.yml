@@ -1,0 +1,152 @@
+# 注册cow相关文本
+register:
+  success: "{nickname}，注册成功，你的cow现在有{length} cm。"
+  already_registered: "{nickname}，你已经注册过cow啦！"
+  only_group: "不许一个人偷偷玩cow噢"
+
+# 打胶相关文本
+dajiao:
+  cooldown:
+    - "{nickname}，你的cow还在疲惫状态呢，至少再歇 10 分钟呀！"
+    - "{nickname}，cow刚刚折腾完，还没缓过来，10 分钟内别再搞啦！"
+    - "{nickname}，cow累得直喘气，10 分钟内可经不起再折腾咯！"
+    - "{nickname}，cow正虚弱着呢，等 10 分钟让它恢复恢复吧！"
+  increase:
+    - "{nickname}，你的cow还没完全恢复呢，但它潜力惊人，增长了{change}cm"
+    - "{nickname}，你冒险打胶，没想到cow小宇宙爆发，增长了{change}cm"
+    - "{nickname}，cow还软绵绵的，你却大胆尝试，结果增长了{change}cm"
+    - "{nickname}，你嘿咻嘿咻一下，cow如同雨后春笋般茁壮成长，增长了{change}cm呢"
+    - "{nickname}，这一波操作猛如虎，cow蹭蹭地长了{change}cm，厉害啦！"
+    - "{nickname}，打胶效果显著，cow一下子就长了{change}cm，前途无量啊！"
+  decrease:
+    - "{nickname}，你的cow还没恢复，你就急于打胶，导致它缩短了{change}cm"
+    - "{nickname}，你不顾cow疲惫，强行打胶，让它缩短了{change}cm"
+    - "{nickname}，cow还在虚弱期，你却折腾它，缩短了{change}cm"
+    - "{nickname}，哎呀，打胶过度，cow像被霜打的茄子，缩短了{change}cm呢"
+    - "{nickname}，用力过猛，cow惨遭重创，缩短了{change}cm，心疼它三秒钟"
+    - "{nickname}，这波操作不太妙，cow缩水了{change}cm，下次悠着点啊！"
+  no_effect:
+    - "{nickname}，你的cow还没恢复，你打胶也没啥效果哦"
+    - "{nickname}，cow没缓过来，你这次打胶白费劲啦"
+    - "{nickname}，cow还没力气呢，打胶没作用"
+    - "{nickname}，这次打胶好像没什么效果哦，再接再厉吧"
+    - "{nickname}，打了个寂寞，cow没啥变化，再试试呗"
+    - "{nickname}，这波打胶无功而返，cow依旧岿然不动"
+  not_registered: "{nickname}，你还没有注册cow，请先发送“注册cow”进行注册。"
+
+# 我的cow相关文本
+my_niuniu:
+  evaluation:
+    short: 
+      - "🐛像一只可爱的蚕宝宝，小巧玲珑。"
+      - "🥬小趴菜一枚呀，还得努力长大呢。"
+      - "🌱还处于萌芽阶段呢，未来可期哟😉。"
+      - "🐭如同小老鼠般迷你，继续加油啦。"
+      - "🍃像一片嫩绿的小叶子，娇小可爱。"
+    medium: 
+      - "👍表现还不错，继续加油💪。"
+      - "😐中规中矩，有提升空间哦。"
+      - "👏算是有点小实力啦，再努努力。"
+      - "🌟有一定的竞争力，别松懈呀。"
+      - "💪处于中等水平，还有进步的余地。"
+    long: 
+      - "🦖简直就是巨无霸，霸气十足😎。"
+      - "😮太猛了，令人惊叹，如同巨兽降临。"
+      - "👑无敌的存在呀，让人望尘莫及。"
+      - "🚨如同超级英雄般强大，震撼全场。"
+      - "💥如此之长，如同擎天柱般顶天立地。"
+    very_long: 
+      - "🛸已经突破常规，达到了新的高度，神秘又强大。"
+      - "🌟如同夜空中最亮的星星，光芒四射，耀眼无比。"
+      - "🐉仿佛是现实中的巨龙，威震八方，无人能敌。"
+      - "🚀恰似一艘高速飞行的火箭，势不可挡，一飞冲天。"
+      - "🏙️就像一座繁华的大都市，繁荣昌盛，令人瞩目。"
+      - "🌌宛如宇宙中的星系，浩瀚又神秘，深不可测。"
+      - "⚡像一道划破天际的闪电，速度与力量并存。"
+      - "🌊好似汹涌澎湃的大海，波澜壮阔，气势恢宏。"
+    super_long: 
+      - "🌋如同喷发的火山，势不可挡。"
+      - "🦍像一只巨大的猩猩，力量无穷。"
+      - "🏔️如同巍峨的高山，雄伟壮观。"
+      - "🌪️如同强烈的龙卷风，摧枯拉朽。"
+      - "🚢像一艘巨大的航母，威武霸气。"
+    ultra_long: 
+      - "🌌如同宇宙中的黑洞，深不可测。"
+      - "🌠像一颗划过天际的流星，耀眼夺目。"
+      - "🗻如同珠穆朗玛峰，顶天立地。"
+      - "🌊好似无边无际的海洋，浩瀚无垠。"
+      - "🛸如同外星飞船，神秘莫测。"
+  info: "{nickname}，你的cow长度为{length_str}，{evaluation}"
+  not_registered: "{nickname}，你还没有注册cow，请先发送“注册cow”进行注册。"
+
+# 比划比划相关文本
+compare:
+  no_target: "{nickname}，请 @ 一名已注册cow的用户或输入用户名关键词进行比划哦，不然一个人可没法比划呢😜。"
+  target_not_registered: "{nickname}，对方还没有注册cow呢！看来你得找个有cow的小伙伴再来比划啦😏。"
+  not_registered: "{nickname}，你还没有注册cow，无法进行比划哦！"
+  limit:
+    - "{nickname}，你的cow刚比划了好几回，这会儿累得直喘气，舌头都伸出来啦，得缓缓啦！"
+    - "{nickname}，cow经过几次比划，已经累得像一滩烂泥，软绵绵的，让它好好歇会儿吧！"
+    - "{nickname}，你的cow连续比划，现在都有点摇摇晃晃，像喝醉了酒一样，快让它休息下！"
+    - "{nickname}，cow比划了这么多次，已经疲惫不堪，四条腿都在打颤，没力气再比啦，先休息会儿！"
+  cooldown: "{nickname}，你在 10 分钟内已邀请过该用户比划，再等等吧，心急可吃不了热豆腐😋。"
+  double_loss: "{nickname1} 和 {nickname2}，你们俩的cow刚一碰撞，就像两颗脆弱的玻璃珠，“啪嗒”一下都折断啦！双方的cow长度都减半咯，真是两败俱伤呀😭！"
+  hardness_win:
+    - "{nickname}，虽然你们的cow长度相近，但你的cow硬度惊人，如同钢铁般坚硬，好似一座坚不可摧的堡垒，一下子就碾压了对方，太厉害了👏！"
+    - "{nickname}，关键时刻，你的cow硬度爆棚，像一把无坚不摧的利刃，轻松刺穿了对方的防线，成功战胜对手，简直神勇无敌😎！"
+    - "{nickname}，长度差不多又怎样，你的cow凭借着惊人的硬度脱颖而出，霸气侧漏，仿佛是战场上的常胜将军，把对手打得落花流水🥳！"
+    - "{nickname}，在这场长度相近的较量中，你的cow硬度如同金刚石般，坚硬无比，瞬间就将对方的cow击垮，展现出了绝对的优势👍！"
+    - "{nickname}，尽管和对方cow长度不相上下，但你的cow硬度宛如一座巍峨的高山，稳稳地压制住对方，胜利属于你👏👏！"
+  hardness_lose:
+    - "{nickname}，虽然你的cow长度不错，但硬度不够，被对方的cow轻松击败了，就像豆腐遇上了铁锤，瞬间崩溃了😭！"
+    - "{nickname}，你的cow长度虽然不短，但硬度不够，被对方的cow碾压了，就像棉花糖遇上了钢铁，毫无还手之力😢！"
+    - "{nickname}，尽管你的cow长度不差，但硬度不够，被对方的cow打败了，就像纸糊的盾牌遇上了利剑，瞬间破碎了😞！"
+    - "{nickname}，你的cow长度还行，但硬度不够，被对方的cow击败了，就像泡沫遇上了针尖，瞬间破灭了😔！"
+    - "{nickname}，虽然你的cow长度不错，但硬度不够，被对方的cow打败了，就像雪遇上了烈日，瞬间融化了😟！"
+  win:
+    - "{nickname}，你的cow就像一条威风凛凛的巨龙，张牙舞爪，以绝对的优势把 {target_nickname} 的cow打得节节败退，对方的cow吓得瑟瑟发抖，太威武啦😎！"
+    - "{nickname}，你的cow如同一个勇猛无畏的战士，手持利刃，轻松碾压了 {target_nickname} 的cow，让对方毫无还手之力，厉害极了👏！"
+    - "{nickname}，你家cow简直就是王者降临，气势汹汹，把 {target_nickname} 远远甩在身后，对方只能望尘莫及，让对方毫无还手之力，尽显王者风范🥳！"
+    - "{nickname}，你的cow仿佛是神话中的战神，力大无穷，以压倒性的优势击败了 {target_nickname} 的cow，对方的cow被打得丢盔弃甲，太霸气啦😏！"
+    - "{nickname}，你的cow就像一颗高速飞行的炮弹，势不可挡，一下子就把 {target_nickname} 的cow打得屁滚尿流，胜利的光芒属于你🌟！"
+  lose:
+    - "{nickname}，很可惜呀，这次你的cow不敌 {target_nickname} 的cow，就像一只小绵羊遇到了大灰狼，下次加油呀💪！"
+    - "{nickname}，{target_nickname} 的cow更胜一筹，你别气馁，你的cow就像暂时迷失方向的小船，还有机会调整航线，重新出发哦😉！"
+    - "{nickname}，这一回你的cow稍逊一筹，就像赛跑中被对手拉开了距离，再接再厉，争取下次赢回来，相信你的cow会爆发小宇宙哒💥！"
+    - "{nickname}，哎呀，这次你的cow输给了 {target_nickname} 的cow，不过没关系，就像一场小小的战役失败了，下次咱们卷土重来，一定能赢😎！"
+    - "{nickname}，很遗憾，你的cow在和 {target_nickname} 的较量中败下阵来，就像一位骑士在战斗中暂时落马，别灰心，养精蓄锐，下次定能反败为胜💪！"
+  target_increase: "{message} {target_nickname} 的长度增加{bonus}cm，当前长度为{length_str}，对方的cow变得更强大啦，你得加油追赶咯😜。"
+  target_no_increase: "{message} 不过 {target_nickname} 的长度没有增加，这给了你反超的好机会，下次努力赢回来呀💪。"
+  user_no_increase: "{nickname}，虽然你赢了这次比划，但你的cow长度没有增加，真是遗憾，下次再接再厉吧💪。"
+  big_disadvantage_win:
+    - "{nickname}，在极大劣势下，你的cow展现出了惊人的韧性和毅力，像一只浴火重生的凤凰，成功逆袭了 {target_nickname} 的cow，真是奇迹般的胜利👏！"
+    - "{nickname}，尽管处于极大劣势，但你的cow凭借着顽强的意志力，像一颗坚韧不拔的种子，最终战胜了 {target_nickname} 的cow，令人刮目相看😎！"
+    - "{nickname}，在这场不对等的较量中，你的cow如同一位不屈的战士，凭借着无比的勇气和毅力，逆袭了 {target_nickname} 的cow，太厉害了🥳！"
+    - "{nickname}，虽然你的cow处于极大劣势，但它展现出了惊人的韧性，像一块坚硬的磐石，最终击败了 {target_nickname} 的cow，真是不可思议👍！"
+    - "{nickname}，在极大劣势下，你的cow如同一只不屈的雄鹰，凭借着顽强的斗志，成功逆袭了 {target_nickname} 的cow，简直神勇无敌👏👏！"
+  big_advantage_lose:
+    - "{nickname}，在极大优势下，你的cow竟然输给了 {target_nickname} 的cow，就像一只骄傲的孔雀被一只小麻雀击败，真是意外😭！"
+    - "{nickname}，尽管你的cow处于极大优势，但它却被 {target_nickname} 的cow击败了，就像一头强壮的狮子被一只小兔子打败，令人难以置信😢！"
+    - "{nickname}，在这场不对等的较量中，你的cow竟然输给了 {target_nickname} 的cow，就像一艘巨轮被一只小船击沉，真是令人震惊😞！"
+    - "{nickname}，虽然你的cow处于极大优势，但它却被 {target_nickname} 的cow打败了，就像一座高山被一颗小石子击倒，真是不可思议😔！"
+    - "{nickname}，在极大优势下，你的cow竟然输给了 {target_nickname} 的cow，就像一只雄鹰被一只小麻雀击败，真是令人难以置信😟！"
+# cow排行相关文本
+niuniu_rank:  
+  no_registered: "当前群里还没有人注册cow呢！"
+  title: "cow排行榜：\n"
+  item: "{rank}. {nickname}：{length_str}\n"
+
+rank:
+  header: "本群cow长度排行榜：\n"
+  no_registration: "本群还没有人注册cow呢。"
+
+# cow菜单相关文本
+menu: |
+  cow游戏菜单：
+  1. 注册cow：开启你的cow之旅，随机获得初始长度的cow。
+  2. 打胶：通过此操作有机会让你的cow长度增加或减少，注意要等cow恢复好哦。
+  3. 我的cow：查看你当前cow的长度，并获得相应评价。
+  4. 比划比划：@ 一名已注册cow的用户，或输入用户名关键词，进行cow较量
+  5. cow排行：查看当前群内cow长度的排行榜。
+menu:
+  default: "cow插件菜单：\n1. 注册cow：注册你的cow\n2. 打胶：尝试增加cow长度\n3. 我的cow：查看自己cow的长度和硬度\n4. 比划比划 [对手名称/@对手]：和其他用户比划cow长度\n5. cow排行：查看本群cow长度排行榜\n6. cow开：开启cow插件\n7. cow关：关闭cow插件"
