@@ -1,1 +1,102 @@
 
+7C7BFDAC9F8B58D1C6010C5BF9A570B7:
+  __nickname_index__:
+    '111': 1B675B85E30E5E887CEC91A0824ED2B7
+    孤傲霸: C70F5DBE01661B5F6571483A79BC8D74
+    战狂: C90C3092F366CE2EF811788975340643
+  __users__:
+    1B675B85E30E5E887CEC91A0824ED2B7:
+      assist_others: 3
+      assisted_times: 0
+      compare_attempts: 11
+      compare_losses: 1
+      compare_wins: 2
+      compared_times: 1
+      dajiao_count: 5
+      last_compared:
+      - C70F5DBE01661B5F6571483A79BC8D74
+      - C90C3092F366CE2EF811788975340643
+      length: 131
+      nickname: '111'
+      solo_actions: 5
+      stats:
+        assisted_dajiao: 0
+        compare_losses: 0
+        compare_wins: 0
+        dajiao_count: 0
+        initiated_compares: 0
+        received_assists: 0
+        received_compares: 0
+    C70F5DBE01661B5F6571483A79BC8D74:
+      assist_others: 0
+      assisted_times: 2
+      compare_attempts: 1
+      compare_losses: 1
+      compare_wins: 1
+      compared_times: 6
+      dajiao_count: 1
+      length: 61
+      nickname: 孤傲霸
+      solo_actions: 1
+      stats:
+        assisted_dajiao: 0
+        compare_losses: 0
+        compare_wins: 0
+        dajiao_count: 0
+        initiated_compares: 0
+        received_assists: 0
+        received_compares: 0
+    C90C3092F366CE2EF811788975340643:
+      assist_others: 0
+      assisted_times: 1
+      compare_attempts: 0
+      compare_losses: 1
+      compare_wins: 0
+      compared_times: 5
+      dajiao_count: 1
+      length: 29
+      nickname: 战狂
+      solo_actions: 1
+      stats:
+        assisted_dajiao: 0
+        compare_losses: 0
+        compare_wins: 0
+        dajiao_count: 0
+        initiated_compares: 0
+        received_assists: 0
+        received_compares: 0
+__global__:
+  __users__:
+    1B675B85E30E5E887CEC91A0824ED2B7:
+      assist_others: 3
+      assisted_times: 0
+      compare_attempts: 10
+      compare_losses: 1
+      compare_wins: 1
+      compared_times: 1
+      dajiao_count: 5
+      length: 111
+      nickname: ''
+      solo_actions: 5
+    C70F5DBE01661B5F6571483A79BC8D74:
+      assist_others: 0
+      assisted_times: 1
+      compare_attempts: 0
+      compare_losses: 0
+      compare_wins: 0
+      compared_times: 0
+      dajiao_count: 1
+      length: 8
+      nickname: ''
+      solo_actions: 1
+    C90C3092F366CE2EF811788975340643:
+      assist_others: 0
+      assisted_times: 0
+      compare_attempts: 0
+      compare_losses: 0
+      compare_wins: 0
+      compared_times: 0
+      dajiao_count: 1
+      length: 5
+      nickname: ''
+      solo_actions: 1
