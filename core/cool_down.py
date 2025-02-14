@@ -43,7 +43,7 @@ def user_cooldown(cooldown: int, message: str):
         async def wrapper(self, event: Any, *args, **kwargs):
             user_id = str(event.get_sender_id())
             group_id = str(event.message_obj.group_id)
-            key = f"{group_id}_{user_id}"
+            key = f"{group_id}_{user_id}_{func.__name__}"
             manager = self.cool_down_manager
             
             if not manager.check_cooldown(key, cooldown):
