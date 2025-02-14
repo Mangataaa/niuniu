@@ -10,7 +10,7 @@ from .core.data_manager import DataManager
 from .core.cool_down import CoolDownManager, group_cooldown, user_cooldown
 from .core.message_gen import MessageGenerator
 
-@register("niuniu_plugin", "长安某", "牛牛插件，包含注册牛牛、打胶、我的牛牛、比划比划、牛牛排行等功能", "2.2.0")
+@register("niuniu_plugin", "长安某", "cow插件，包含注册cow、打胶、我的cow、比划比划、cow排行等功能", "2.2.0")
 class NiuniuPlugin(Star):
     def __init__(self, context: Context, config: dict = None):
         super().__init__(context)
@@ -19,6 +19,7 @@ class NiuniuPlugin(Star):
         self.data_manager = DataManager(str(Path(__file__).parent))
         from .core.message_gen import MessageGenerator
         self.message_gen = MessageGenerator(self.config.get('message_templates', {}))  # 统一变量名
+        self.cool_down_manager = CoolDownManager()
         self.cool_down_manager = CoolDownManager()
         # 统一所有message_gen引用
         # 初始化冷却时间记录器
@@ -38,7 +39,7 @@ class NiuniuPlugin(Star):
     # 移除独立的数据存储方法，统一使用data_manager
 
     def get_niuniu_config(self):
-        """获取牛牛相关配置"""
+        """获取cow相关配置"""
         return self.config.get('niuniu_config', {})
 
     def check_probability(self, probability):
@@ -46,12 +47,12 @@ class NiuniuPlugin(Star):
         return random.random() < probability
 
     def format_niuniu_message(self, message, length):
-        """格式化牛牛相关消息"""
+        """格式化cow相关消息"""
         if length >= 100:
             length_str = f"{length / 100:.2f}m"
         else:
             length_str = f"{length}cm"
-        return f"{message}，当前牛牛长度为{length_str}"
+        return f"{message}，当前cow长度为{length_str}"
 
     @event_message_type(EventMessageType.ALL)
     async def on_all_messages(self, event: AstrMessageEvent):
@@ -62,13 +63,13 @@ class NiuniuPlugin(Star):
 
         message_str = event.message_str.strip()
 
-        if message_str == "注册牛牛":
+        if message_str == "注册cow":
             async for result in self.register_niuniu(event):
                 yield result
         elif message_str == "打胶":
             async for result in self.dajiao(event):
                 yield result
-        elif message_str == "我的牛牛":
+        elif message_str == "我的cow":
             async for result in self.my_niuniu(event):
                 yield result
         elif message_str.startswith("助力打胶"):
@@ -81,10 +82,10 @@ class NiuniuPlugin(Star):
             target_name = parts[1].strip() if len(parts) > 1 else None
             async for result in self.compare_niuniu(event, target_name):
                 yield result
-        elif message_str == "牛牛排行":
+        elif message_str == "cow排行":
             async for result in self.niuniu_rank(event):
                 yield result
-        elif message_str == "牛牛菜单":
+        elif message_str == "cow菜单":
             async for result in self.niuniu_menu(event):
                 yield result
         elif message_str.startswith("修改昵称"):
@@ -99,7 +100,7 @@ class NiuniuPlugin(Star):
         return [str(comp.qq) for comp in chain if isinstance(comp, At)]
 
     async def register_niuniu(self, event: AstrMessageEvent):
-        """注册牛牛指令处理函数"""
+        """注册cow指令处理函数"""
         user_id = str(event.get_sender_id())
         sender_nickname = event.get_sender_name()
         group_id = str(event.message_obj.group_id)
@@ -153,7 +154,6 @@ class NiuniuPlugin(Star):
         template = self.message_gen.get_template('register', 'success')
         yield event.plain_result(template.format(
             nickname=sender_nickname,
-            new_nickname=new_user_data["nickname"],
             length=length
         ))
 
@@ -176,10 +176,10 @@ class NiuniuPlugin(Star):
             MIN_COOLDOWN = 10 * 60
             if time_diff < MIN_COOLDOWN:
                 cooldown_messages = [
-                    f"{sender_nickname}，你的牛牛还在疲惫状态呢，至少再歇 10 分钟呀！",
-                    f"{sender_nickname}，牛牛刚刚折腾完，还没缓过来，10 分钟内别再搞啦！",
-                    f"{sender_nickname}，牛牛累得直喘气，10 分钟内可经不起再折腾咯！",
-                    f"{sender_nickname}，牛牛正虚弱着呢，等 10 分钟让它恢复恢复吧！"
+                    f"{sender_nickname}，你的cow还在疲惫状态呢，至少再歇 10 分钟呀！",
+                    f"{sender_nickname}，cow刚刚折腾完，还没缓过来，10 分钟内别再搞啦！",
+                    f"{sender_nickname}，cow累得直喘气，10 分钟内可经不起再折腾咯！",
+                    f"{sender_nickname}，cow正虚弱着呢，等 10 分钟让它恢复恢复吧！"
                 ]
                 yield event.plain_result(random.choice(cooldown_messages))
                 return
@@ -193,19 +193,19 @@ class NiuniuPlugin(Star):
                 max_change = config.get('max_change', 5)
 
                 increase_messages = [
-                    "{nickname}，你的牛牛还没完全恢复呢，但它潜力惊人，增长了{change}cm",
-                    "{nickname}，你冒险打胶，没想到牛牛小宇宙爆发，增长了{change}cm",
-                    "{nickname}，牛牛还软绵绵的，你却大胆尝试，结果增长了{change}cm"
+                    "{nickname}，你的cow还没完全恢复呢，但它潜力惊人，增长了{change}cm",
+                    "{nickname}，你冒险打胶，没想到cow小宇宙爆发，增长了{change}cm",
+                    "{nickname}，cow还软绵绵的，你却大胆尝试，结果增长了{change}cm"
                 ]
                 decrease_messages = [
-                    "{nickname}，你的牛牛还没恢复，你就急于打胶，导致它缩短了{change}cm",
-                    "{nickname}，你不顾牛牛疲惫，强行打胶，让它缩短了{change}cm",
-                    "{nickname}，牛牛还在虚弱期，你却折腾它，缩短了{change}cm"
+                    "{nickname}，你的cow还没恢复，你就急于打胶，导致它缩短了{change}cm",
+                    "{nickname}，你不顾cow疲惫，强行打胶，让它缩短了{change}cm",
+                    "{nickname}，cow还在虚弱期，你却折腾它，缩短了{change}cm"
                 ]
                 no_effect_messages = [
-                    "{nickname}，你的牛牛还没恢复，你打胶也没啥效果哦",
-                    "{nickname}，牛牛没缓过来，你这次打胶白费劲啦",
-                    "{nickname}，牛牛还没力气呢，打胶没作用"
+                    "{nickname}，你的cow还没恢复，你打胶也没啥效果哦",
+                    "{nickname}，cow没缓过来，你这次打胶白费劲啦",
+                    "{nickname}，cow还没力气呢，打胶没作用"
                 ]
 
                 if self.check_probability(failure_probability):
@@ -233,19 +233,19 @@ class NiuniuPlugin(Star):
             max_change = config.get('max_change', 5)
 
             increase_messages = [
-                "{nickname}，你嘿咻嘿咻一下，牛牛如同雨后春笋般茁壮成长，增长了{change}cm呢",
-                "{nickname}，这一波操作猛如虎，牛牛蹭蹭地长了{change}cm，厉害啦！",
-                "{nickname}，打胶效果显著，牛牛一下子就长了{change}cm，前途无量啊！"
+                "{nickname}，你嘿咻嘿咻一下，cow如同雨后春笋般茁壮成长，增长了{change}cm呢",
+                "{nickname}，这一波操作猛如虎，cow蹭蹭地长了{change}cm，厉害啦！",
+                "{nickname}，打胶效果显著，cow一下子就长了{change}cm，前途无量啊！"
             ]
             decrease_messages = [
-                "{nickname}，哎呀，打胶过度，牛牛像被霜打的茄子，缩短了{change}cm呢",
-                "{nickname}，用力过猛，牛牛惨遭重创，缩短了{change}cm，心疼它三秒钟",
-                "{nickname}，这波操作不太妙，牛牛缩水了{change}cm，下次悠着点啊！"
+                "{nickname}，哎呀，打胶过度，cow像被霜打的茄子，缩短了{change}cm呢",
+                "{nickname}，用力过猛，cow惨遭重创，缩短了{change}cm，心疼它三秒钟",
+                "{nickname}，这波操作不太妙，cow缩水了{change}cm，下次悠着点啊！"
             ]
             no_effect_messages = [
                 "{nickname}，这次打胶好像没什么效果哦，再接再厉吧",
-                "{nickname}，打了个寂寞，牛牛没啥变化，再试试呗",
-                "{nickname}，这波打胶无功而返，牛牛依旧岿然不动"
+                "{nickname}，打了个寂寞，cow没啥变化，再试试呗",
+                "{nickname}，这波打胶无功而返，cow依旧岿然不动"
             ]
 
             change = random.randint(min_change, max_change)
@@ -280,10 +280,10 @@ class NiuniuPlugin(Star):
             self.last_dajiao_time[group_id][user_id] = current_time
             yield event.plain_result(self.format_niuniu_message(message, user_info["length"]))
         else:
-            yield event.plain_result(f"{sender_nickname}，你还没有注册牛牛，请先发送“注册牛牛”进行注册。")
+            yield event.plain_result(f"{sender_nickname}，你还没有注册cow，请先发送“注册cow”进行注册。")
 
     async def my_niuniu(self, event: AstrMessageEvent):
-        """我的牛牛指令处理函数"""
+        """我的cow指令处理函数"""
         user_id = str(event.get_sender_id())
         sender_nickname = event.get_sender_name()
         group_id = str(event.message_obj.group_id)
@@ -300,7 +300,7 @@ class NiuniuPlugin(Star):
             elif length <= 24:
                 evaluations = ["中规中矩，有提升空间", "一般阿", "哥哥好厉害我好爱❤️"]
             elif length <= 24:
-                evaluations = ["表现还不错，继续加油", "算是有点小实力啦", "看看爸爸的大牛牛"]
+                evaluations = ["表现还不错，继续加油", "算是有点小实力啦", "看看爸爸的大cow"]
             elif length <= 36:
                 evaluations = ["简直就是巨无霸", "太猛了，令人惊叹", "无敌的存在呀"]
             else:
@@ -313,9 +313,9 @@ class NiuniuPlugin(Star):
             else:
                 length_str = f"{length}cm"
             stats_msg = self.message_gen.generate_niuniu_message(user_info)
-            yield event.plain_result(f"{sender_nickname}的牛牛状态（昵称：{user_info['nickname']}）：\n{stats_msg}")
+            yield event.plain_result(f"{sender_nickname}的牛牛状态：\n{stats_msg}")
         else:
-            yield event.plain_result(f"{sender_nickname}，你还没有注册牛牛，请先发送“注册牛牛”进行注册。")
+            yield event.plain_result(f"{sender_nickname}，你还没有注册cow，请先发送“注册cow”进行注册。")
 
     @user_cooldown(600, "10分钟内只能助力打胶一次")
     async def handle_zhuli_dajiao(self, event: AstrMessageEvent, target_name: str = None):
@@ -332,7 +332,7 @@ class NiuniuPlugin(Star):
         
         # 检查用户是否已注册
         if user_id not in group_data:
-            yield event.plain_result(f"{sender_nickname}，请先注册牛牛")
+            yield event.plain_result(f"{sender_nickname}，请先注册cow")
             return
 
         # 完全依赖装饰器管理冷却，已移除所有手动冷却检查代码
@@ -356,7 +356,7 @@ class NiuniuPlugin(Star):
                 target_user_id = nickname_to_uid[matches[0]]
         
         if not target_user_id or target_user_id not in group_data:
-            yield event.plain_result(f"{sender_nickname}，请指定一个已注册牛牛的用户")
+            yield event.plain_result(f"{sender_nickname}，请指定一个已注册cow的用户")
             return
             
         user_info = group_data[user_id]
@@ -382,7 +382,7 @@ class NiuniuPlugin(Star):
                 change = random.randint(1,5)
                 if random.random() < 0.5:
                     user_info["length"] = max(1, user_info["length"] - change)
-                    template = self.msg_gen.get_template('zhuli_dajiao', 'fail_self_dec')
+                    template = self.message_gen.get_template('zhuli_dajiao', 'fail_self_dec')
                 else:
                     change = random.randint(1,5)
                     target_info["length"] = max(1, target_info["length"] - change)
@@ -393,6 +393,7 @@ class NiuniuPlugin(Star):
         
         self.data_manager.update_group_data(group_id, group_data)
         yield event.plain_result(template.format(
+            nickname=sender_nickname,
             helper=sender_nickname,
             target=target_info["nickname"],
             change=change,
@@ -416,7 +417,7 @@ class NiuniuPlugin(Star):
             # 获取当前用户昵称
             current_user_nickname = next((info["nickname"] for uid, info in group_data.items() if uid == user_id), None)
             if not current_user_nickname:
-                yield event.plain_result(f"{sender_nickname}，你还没有注册牛牛，请先发送“注册牛牛”进行注册。")
+                yield event.plain_result(f"{sender_nickname}，你还没有注册cow，请先发送“注册cow”进行注册。")
                 return
             at_users = self.parse_at_users(event)
             target_user_id = None
@@ -433,7 +434,7 @@ class NiuniuPlugin(Star):
                 }
                 
                 if not nickname_to_uid:
-                    yield event.plain_result(f"{sender_nickname}，当前群组没有其他已注册牛牛的用户。")
+                    yield event.plain_result(f"{sender_nickname}，当前群组没有其他已注册cow的用户。")
                     return
                     
                 # 使用小写进行模糊匹配
@@ -445,7 +446,7 @@ class NiuniuPlugin(Star):
                 )
                 
                 if not matches:
-                    yield event.plain_result(f"{sender_nickname}，未找到包含 '{target_name}' 的已注册牛牛用户。")
+                    yield event.plain_result(f"{sender_nickname}，未找到包含 '{target_name}' 的已注册cow用户。")
                     return
                 
                 target_nickname = matches[0]
@@ -456,16 +457,16 @@ class NiuniuPlugin(Star):
                     yield event.plain_result(f"{sender_nickname}，你不能和自己比划。")
                     return
             else:
-                yield event.plain_result(f"{sender_nickname}，请 @ 一名已注册牛牛的用户或输入用户名关键词进行比划。")
+                yield event.plain_result(f"{sender_nickname}，请 @ 一名已注册cow的用户或输入用户名关键词进行比划。")
                 return
 
             if not target_user_id:
-                yield event.plain_result(f"{sender_nickname}，请 @ 一名已注册牛牛的用户或输入用户名关键词进行比划。")
+                yield event.plain_result(f"{sender_nickname}，请 @ 一名已注册cow的用户或输入用户名关键词进行比划。")
                 return
 
             # 使用统一小写后的用户ID进行检查
             if target_user_id not in group_data:
-                yield event.plain_result(f"{sender_nickname}，对方还没有注册牛牛呢！")
+                yield event.plain_result(f"{sender_nickname}，对方还没有注册cow呢！")
                 return
 
             # 检查 3分钟内邀请人数限制
@@ -476,10 +477,10 @@ class NiuniuPlugin(Star):
             if current_time - last_time < 3 * 60:
                 if count >= 5:
                     limit_messages = [
-                        f"{sender_nickname}，你的牛牛刚比划了好几回，这会儿累得直喘气，得缓缓啦！",
-                        f"{sender_nickname}，牛牛经过几次比划，已经累得软绵绵的，让它歇会儿吧！",
-                        f"{sender_nickname}，你的牛牛连续比划，现在都有点颤颤巍巍了，快让它休息下！",
-                        f"{sender_nickname}，牛牛比划了这么多次，已经疲惫不堪，没力气再比啦，先休息会儿！"
+                        f"{sender_nickname}，你的cow刚比划了好几回，这会儿累得直喘气，得缓缓啦！",
+                        f"{sender_nickname}，cow经过几次比划，已经累得软绵绵的，让它歇会儿吧！",
+                        f"{sender_nickname}，你的cow连续比划，现在都有点颤颤巍巍了，快让它休息下！",
+                        f"{sender_nickname}，cow比划了这么多次，已经疲惫不堪，没力气再比啦，先休息会儿！"
                     ]
                     yield event.plain_result(random.choice(limit_messages))
                     return
@@ -514,20 +515,20 @@ class NiuniuPlugin(Star):
                     user_info["length"] = max(1, user_length // 2)
                     target_info["length"] = max(1, target_length // 2)
                     self.data_manager.update_group_data(group_id, group_data)
-                    yield event.plain_result(f"{sender_nickname} 和 {target_info['nickname']}，你们俩的牛牛刚一碰撞，就像两颗脆弱的玻璃珠，“啪嗒”一下都折断啦！双方的牛牛长度都减半咯！")
+                    yield event.plain_result(f"{sender_nickname} 和 {target_info['nickname']}，你们俩的cow刚一碰撞，就像两颗脆弱的玻璃珠，“啪嗒”一下都折断啦！双方的cow长度都减半咯！")
                     return
                 else:
                     user_info["length"] = user_length * 2
                     target_info["length"] = target_length * 2
                     self.data_manager.update_group_data(group_id, group_data)
                     yield event.plain_result(
-                        f"{sender_nickname} 和 {target_info['nickname']}，你们俩的牛牛刚一碰撞，就发生奇妙反应！双方的牛牛长度都加倍！")
+                        f"{sender_nickname} 和 {target_info['nickname']}，你们俩的cow刚一碰撞，就发生奇妙反应！双方的cow长度都加倍！")
                     return
 
             hardness_win_messages = [
-                "{nickname}，虽然你们的牛牛长度相近，但你的牛牛如同钢铁般坚硬，碾压了对方，太厉害了！",
-                "{nickname}，关键时刻，你的牛牛硬度爆棚，像一把利刃刺穿了对方的防线！",
-                "{nickname}，长度差不多又怎样，你的牛牛凭借着惊人的硬度脱颖而出，霸气侧漏！"
+                "{nickname}，虽然你们的cow长度相近，但你的cow如同钢铁般坚硬，碾压了对方，太厉害了！",
+                "{nickname}，关键时刻，你的cow硬度爆棚，像一把利刃刺穿了对方的防线！",
+                "{nickname}，长度差不多又怎样，你的cow凭借着惊人的硬度脱颖而出，霸气侧漏！"
             ]
 
             # 统一更新基础统计（确保只更新一次）
@@ -548,11 +549,6 @@ class NiuniuPlugin(Star):
                     max_bonus = config.get('max_bonus', 3)
                     bonus = random.randint(min_bonus, max_bonus)
                     user_info["length"] = max(1, user_info["length"] + bonus)
-                    self.data_manager.update_group_data(group_id, group_data)
-                    self.data_manager.update_group_data(group_id, group_data)
-                    self.data_manager.update_group_data(group_id, group_data)
-                    self.data_manager.update_group_data(group_id, group_data)
-                    self.data_manager.update_group_data(group_id, group_data)
                     # 更新胜利统计
                     user_info['compare_wins'] = user_info.get('compare_wins', 0) + 1
                     target_info['compare_losses'] = target_info.get('compare_losses', 0) + 1
@@ -564,7 +560,7 @@ class NiuniuPlugin(Star):
                 else:
                     # 平局时只需保存数据（基础统计已在比划开始时更新）
                     self.data_manager.update_group_data(group_id, group_data)
-                    yield event.plain_result(f"{sender_nickname} 和 {target_info['nickname']}，你们的牛牛长度差距不大，就像两位旗鼓相当的对手，继续加油哦！")
+                    yield event.plain_result(f"{sender_nickname} 和 {target_info['nickname']}，你们的cow长度差距不大，就像两位旗鼓相当的对手，继续加油哦！")
                     return
 
             elif diff > 10 and diff <= 30:
@@ -579,7 +575,7 @@ class NiuniuPlugin(Star):
                                                                         user_info["length"]))
                     return
                 elif self.check_probability(0.1):
-                    yield event.plain_result(f"{sender_nickname} 你的牛牛掏出来就把对方吓跑，但是你得意忘形，导致牛牛长度不变")
+                    yield event.plain_result(f"{sender_nickname} 你的cow掏出来就把对方吓跑，但是你得意忘形，导致cow长度不变")
                     return
 
                 else:
@@ -591,13 +587,12 @@ class NiuniuPlugin(Star):
                     min_bonus = config.get('min_bonus', 1)
                     max_bonus = config.get('max_bonus', 3)
                     bonus = random.randint(min_bonus, max_bonus)
-                    user_info["length"] = max(1, user_info["length"] - bonus)
-                    self.data_manager.update_group_data(group_id, group_data)
+                    user_info["length"] -= bonus
                     self.data_manager.update_group_data(group_id, group_data)  # 确保保存数据
                     av_name_messages =["水卜樱","樱由萝","永濑唯","樱空桃","桃乃木香奈"]
                     av_name = random.choice(av_name_messages)
                     yield event.plain_result(self.format_niuniu_message(
-                        f"{sender_nickname} 你的牛牛气度不凡，但是你的意志不够坚定，被{av_name}诱惑，性起鹿管导致牛牛缩短{bonus}cm",user_info["length"]))
+                        f"{sender_nickname} 你的cow气度不凡，但是你的意志不够坚定，被{av_name}诱惑，性起鹿管导致cow缩短{bonus}cm",user_info["length"]))
                     return
 
             elif diff > 30:
@@ -610,13 +605,13 @@ class NiuniuPlugin(Star):
                         user_info["length"] = max(1, user_info["length"] - change)
                         user_info['compare_losses'] = user_info.get('compare_losses', 0) + 1
                         target_info['compare_wins'] = target_info.get('compare_wins', 0) + 1
-                        message = f"🫨 {sender_nickname} 的牛牛突然萎缩，神秘减少 {change}cm！"
+                        message = f"🫨 {sender_nickname} 的cow突然萎缩，神秘减少 {change}cm！"
                     else:
                         # 对方减少，用户胜利
                         target_info["length"] = max(1, target_info["length"] - change)
                         user_info['compare_wins'] = user_info.get('compare_wins', 0) + 1
                         target_info['compare_losses'] = target_info.get('compare_losses', 0) + 1
-                        message = f"💥 {target_info['nickname']} 的牛牛遭遇暴击，骤减 {change}cm！"
+                        message = f"💥 {target_info['nickname']} 的cow遭遇暴击，骤减 {change}cm！"
                     # 统一保存数据
                     self.data_manager.update_group_data(group_id, group_data)
                     yield event.plain_result(message)
@@ -625,16 +620,16 @@ class NiuniuPlugin(Star):
                 elif rand < 0.6:  # 30% 单方增加
                     if random.random() < 0.5:
                         # 用户增加，用户胜利
-                        user_info["length"] = max(1, user_info["length"] + change)
+                        user_info["length"] += change
                         user_info['compare_wins'] = user_info.get('compare_wins', 0) + 1
                         target_info['compare_losses'] = target_info.get('compare_losses', 0) + 1
-                        message = f"🚀 {sender_nickname} 的牛牛小宇宙爆发，激增 {change}cm！"
+                        message = f"🚀 {sender_nickname} 的cow小宇宙爆发，激增 {change}cm！"
                     else:
                         # 对方增加，用户失败
                         target_info["length"] += change
                         user_info['compare_losses'] = user_info.get('compare_losses', 0) + 1
                         target_info['compare_wins'] = target_info.get('compare_wins', 0) + 1
-                        message = f"✨ {target_info['nickname']} 的牛牛吸收日月精华，暴涨 {change}cm！"
+                        message = f"✨ {target_info['nickname']} 的cow吸收日月精华，暴涨 {change}cm！"
                     # 统一保存数据
                     self.data_manager.update_group_data(group_id, group_data)
                     yield event.plain_result(message)
@@ -642,8 +637,8 @@ class NiuniuPlugin(Star):
                 
                 elif rand < 0.9:  # 30% 无事发生
                     messages = [
-                        f"🤝 {sender_nickname} 和 {target_info['nickname']} 的牛牛达成共识，保持原样",
-                        f"⚡ {sender_nickname} 和 {target_info['nickname']} 的牛牛能量抵消，毫无变化"
+                        f"🤝 {sender_nickname} 和 {target_info['nickname']} 的cow达成共识，保持原样",
+                        f"⚡ {sender_nickname} 和 {target_info['nickname']} 的cow能量抵消，毫无变化"
                     ]
                     yield event.plain_result(random.choice(messages))
                     return
@@ -656,12 +651,12 @@ class NiuniuPlugin(Star):
                         # 更新统计
                         user_info['compare_losses'] = user_info.get('compare_losses', 0) + 1
                         target_info['compare_losses'] = target_info.get('compare_losses', 0) + 1
-                        message = f"🌀 神秘力量降临！{sender_nickname} 和 {target_info['nickname']} 的牛牛各萎缩 {change}cm！"
+                        message = f"🌀 神秘力量降临！{sender_nickname} 和 {target_info['nickname']} 的cow各萎缩 {change}cm！"
                     else:
                         # 双方增加
                         user_info["length"] += change
                         target_info["length"] += change
-                        message = f"🌈 奇迹发生！{sender_nickname} 和 {target_info['nickname']} 的牛牛共鸣增长 {change}cm！"
+                        message = f"🌈 奇迹发生！{sender_nickname} 和 {target_info['nickname']} 的cow共鸣增长 {change}cm！"
                     # 统一保存数据
                     self.data_manager.update_group_data(group_id, group_data)
                     yield event.plain_result(message)
@@ -676,7 +671,7 @@ class NiuniuPlugin(Star):
                         bonus = random.randint(min_bonus, max_bonus)
                         target_info["length"] += bonus
                         lose_messages = [
-                            "{nickname}，你的牛牛在长度上完全比不过 {target_nickname} 的大火腿"
+                            "{nickname}，你的cow在长度上完全比不过 {target_nickname} 的大火腿"
                         ]
                         message = random.choice(lose_messages).format(nickname=sender_nickname,
                                                                       target_nickname=target_info["nickname"])
@@ -691,7 +686,7 @@ class NiuniuPlugin(Star):
                         bonus = random.randint(min_bonus, max_bonus)
                         user_info["length"] -= bonus
                         lose_messages = [
-                            "{nickname}，你的牛牛受到过度惊吓！"
+                            "{nickname}，你的cow受到过度惊吓！"
                         ]
                         message = random.choice(lose_messages).format(nickname=sender_nickname)
                         yield event.plain_result(self.format_niuniu_message(
@@ -708,7 +703,7 @@ class NiuniuPlugin(Star):
                     av_name_messages = ["水卜樱", "樱由萝", "永濑唯", "樱空桃", "桃乃木香奈"]
                     av_name = random.choice(av_name_messages)
                     win_messages = [
-                        "{nickname}，你的牛牛以小胜大！",
+                        "{nickname}，你的cow以小胜大！",
                         "{nickname}，你厚颜无耻，播放{av_name}的成名之作，让对方迅速缴械",
                     ]
                     message = random.choice(win_messages).format(nickname=sender_nickname, av_name=av_name)
@@ -725,7 +720,7 @@ class NiuniuPlugin(Star):
                     bonus = random.randint(min_bonus, max_bonus)
                     user_info["length"] += bonus
                     lose_messages = [
-                        "{nickname}，虽然你的牛牛就像一只小虾米，在长度上完全比不过 {target_nickname} 的大鲸鱼，但是你爆发出了异常坚定的意志，对方被你吓跑",
+                        "{nickname}，虽然你的cow就像一只小虾米，在长度上完全比不过 {target_nickname} 的大鲸鱼，但是你爆发出了异常坚定的意志，对方被你吓跑",
                         "{nickname}，虽然你的长度远远不及 {target_nickname} 的参天大树，但是对方突然阳痿"
                     ]
                     message = random.choice(lose_messages).format(nickname=sender_nickname,
@@ -737,24 +732,24 @@ class NiuniuPlugin(Star):
 
                 else:
                     lose_messages = [
-                        "{nickname}，很可惜呀，这次你的牛牛就像一只小虾米，在长度上完全比不过 {target_nickname} 的大鲸鱼，下次加油呀！",
-                        "{nickname}，{target_nickname} 的牛牛如同一个巨人，在长度上把你的牛牛秒成了渣渣，你别气馁，还有机会！",
-                        "{nickname}，这一回你的牛牛就像一颗小豆芽，长度远远不及 {target_nickname} 的参天大树，再接再厉，争取下次赢回来！"
+                        "{nickname}，很可惜呀，这次你的cow就像一只小虾米，在长度上完全比不过 {target_nickname} 的大鲸鱼，下次加油呀！",
+                        "{nickname}，{target_nickname} 的cow如同一个巨人，在长度上把你的cow秒成了渣渣，你别气馁，还有机会！",
+                        "{nickname}，这一回你的cow就像一颗小豆芽，长度远远不及 {target_nickname} 的参天大树，再接再厉，争取下次赢回来！"
                     ]
                     message = random.choice(lose_messages).format(nickname=sender_nickname, target_nickname=target_info["nickname"])
                     yield event.plain_result(f"{message}")
                     return
 
         else:
-            yield event.plain_result(f"{sender_nickname}，你还没有注册牛牛，请先发送“注册牛牛”进行注册。")
+            yield event.plain_result(f"{sender_nickname}，你还没有注册cow，请先发送“注册cow”进行注册。")
 
     async def niuniu_rank(self, event: AstrMessageEvent):
-        """牛牛排行指令处理函数"""
+        """cow排行指令处理函数"""
         group_id = str(event.message_obj.group_id)
         group_data = self.data_manager.get_group_data(group_id)
         if group_data:
             sorted_niuniu = sorted(group_data.items(), key=lambda x: x[1]["length"], reverse=True)
-            rank_message = "牛牛排行榜：\n"
+            rank_message = "cow排行榜：\n"
             for i, (_, user_info) in enumerate(sorted_niuniu, start=1):
                 nickname = user_info["nickname"]
                 length = user_info["length"]
@@ -765,17 +760,17 @@ class NiuniuPlugin(Star):
                 rank_message += f"{i}. {nickname}：{length_str}\n"
             yield event.plain_result(rank_message)
         else:
-            yield event.plain_result("当前群里还没有人注册牛牛呢！")
+            yield event.plain_result("当前群里还没有人注册cow呢！")
 
     async def niuniu_menu(self, event: AstrMessageEvent):
-        """牛牛菜单指令处理函数"""
+        """cow菜单指令处理函数"""
         menu = """
-牛牛游戏菜单：
-1. 注册牛牛：开启你的牛牛之旅，随机获得初始长度的牛牛。
-2. 打胶：通过此操作有机会让你的牛牛长度增加或减少，注意要等牛牛恢复好哦。
-3. 我的牛牛：查看你当前牛牛的长度，并获得相应评价。
-4. 比划比划：@ 一名已注册牛牛的用户，或输入用户名关键词，进行牛牛长度的较量。
-5. 牛牛排行：查看当前群内牛牛长度的排行榜。
+cow游戏菜单：
+1. 注册cow：开启你的cow之旅，随机获得初始长度的cow。
+2. 打胶：通过此操作有机会让你的cow长度增加或减少，注意要等cow恢复好哦。
+3. 我的cow：查看你当前cow的长度，并获得相应评价。
+4. 比划比划：@ 一名已注册cow的用户，或输入用户名关键词，进行cow长度的较量。
+5. cow排行：查看当前群内cow长度的排行榜。
 6. 修改昵称 新昵称：更改你的显示昵称（30分钟冷却）
         """
         yield event.plain_result(menu)
@@ -806,7 +801,7 @@ class NiuniuPlugin(Star):
             return
 
         if user_id not in group_data:
-            yield event.plain_result(f"{sender_nickname}，请先注册牛牛再修改昵称")
+            yield event.plain_result(f"{sender_nickname}，请先注册cow再修改昵称")
             return
 
         # 更新昵称
