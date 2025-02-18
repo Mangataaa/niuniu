@@ -1,13 +1,14 @@
 import random
 from typing import Dict
 
+
 class MessageGenerator:
     """消息模板管理类"""
-    
+
     def __init__(self, config: Dict):
         self.config = config
         self._load_templates()
-        
+
     def generate_niuniu_message(self, user_data: dict) -> str:
         """生成牛牛统计消息"""
         stats = [
@@ -21,11 +22,11 @@ class MessageGenerator:
         ]
         # 确保所有统计字段都有默认值
         user_data.setdefault('length', 0.0)
-        
+
         stat_lines = []
         for icon, value in stats:
             stat_lines.append(f"{icon}: {value:^3}")
-        
+
         return (
             f"┌──────── 牛牛战绩 ────────┐\n"
             f"│ 当前长度：{user_data['length']:>6.1f}cm │\n"
@@ -41,8 +42,8 @@ class MessageGenerator:
         self.templates = {
             'register': {
                 'success': [
-                    "{nickname}，注册成功，你的cow现在有{length} cm",
-                    "{nickname}，cow初始化完成，初始长度：{length} cm"
+                    "{nickname}，注册成功，你的cow昵称{cowname}，现在有{length} cm",
+                    "{nickname}，cow初始化完成，昵称{cowname}，初始长度：{length} cm"
                 ],
                 'exists': [
                     "{nickname}，你已经注册过cow啦！",
@@ -50,6 +51,42 @@ class MessageGenerator:
                 ]
             },
             'dajiao': {
+                "cooldown_messages": [
+                    "{nickname}，你的cow还在疲惫状态呢，至少再歇 {dajiao_cd} 分钟呀！",
+                    "{nickname}，cow刚刚折腾完，还没缓过来，{dajiao_cd} 分钟内别再搞啦！",
+                    "{nickname}，cow累得直喘气，{dajiao_cd} 分钟内可经不起再折腾咯！",
+                    "{nickname}，cow正虚弱着呢，等 {dajiao_cd} 分钟让它恢复恢复吧！"
+                ],
+                "diff_increase_messages": [
+                    "{nickname}，你的cow还没完全恢复呢，但它潜力惊人，增长了{change}cm",
+                    "{nickname}，你冒险打胶，没想到cow小宇宙爆发，增长了{change}cm",
+                    "{nickname}，cow还软绵绵的，你却大胆尝试，结果增长了{change}cm"
+                ],
+                "diff_decrease_messages": [
+                    "{nickname}，你的cow还没恢复，你就急于打胶，导致它缩短了{change}cm",
+                    "{nickname}，你不顾cow疲惫，强行打胶，让它缩短了{change}cm",
+                    "{nickname}，cow还在虚弱期，你却折腾它，缩短了{change}cm"
+                ],
+                "diff_no_effect_messages": [
+                    "{nickname}，你的cow还没恢复，你打胶也没啥效果哦",
+                    "{nickname}，cow没缓过来，你这次打胶白费劲啦",
+                    "{nickname}，cow还没力气呢，打胶没作用"
+                ],
+                "increase_messages": [
+                    "{nickname}，你嘿咻嘿咻一下，cow如同雨后春笋般茁壮成长，增长了{change}cm呢",
+                    "{nickname}，这一波操作猛如虎，cow蹭蹭地长了{change}cm，厉害啦！",
+                    "{nickname}，打胶效果显著，cow一下子就长了{change}cm，前途无量啊！"
+                ],
+                "decrease_messages": [
+                    "{nickname}，哎呀，打胶过度，cow像被霜打的茄子，缩短了{change}cm呢",
+                    "{nickname}，用力过猛，cow惨遭重创，缩短了{change}cm，心疼它三秒钟",
+                    "{nickname}，这波操作不太妙，cow缩水了{change}cm，下次悠着点啊！"
+                ],
+                "no_effect_messages": [
+                    "{nickname}，这次打胶好像没什么效果哦，再接再厉吧",
+                    "{nickname}，打了个寂寞，cow没啥变化，再试试呗",
+                    "{nickname}，这波打胶无功而返，cow依旧岿然不动"
+                ],
                 'cooldown': [
                     "{nickname}，你的cow还在疲惫状态呢，至少再歇 10 分钟呀！",
                     "{nickname}，cow刚刚折腾完，还没缓过来，10 分钟内别再搞啦！"
@@ -67,10 +104,15 @@ class MessageGenerator:
                 ]
             },
             'zhuli_dajiao': {
+                "cooldown_messages": [
+                    "{nickname}，至少再歇 {dajiao_cd} 分钟呀！",
+                    "{nickname}，{dajiao_cd} 分钟内别再搞啦！",
+                    "{nickname}，{dajiao_cd} 分钟内可经不起再折腾咯！",
+                ],
                 'success_both_inc': [
                     "{helper} 助力 {target} 打胶成功！双方cow增长{change}cm！\n"
                     "├─ 助攻者战绩：👐 {helper_assists:+d} 🎁 {helper_assisted:+d}\n"
-                    "└─ 被助者战绩：💦 {target_solo:+d} 🎁 {target_assisted:+d}",
+                    "└─ 被助者战绩：💦 {helper_assists:+d} 🎁 {target_assisted:+d}",
                     "{helper} 的神助攻让 {target} cow涨{change}cm！\n"
                     "● 助攻方：助力+{helper_assists} 被助+{helper_assisted}\n"
                     "● 受益方：打胶+{target_solo} 被助+{target_assisted}"
