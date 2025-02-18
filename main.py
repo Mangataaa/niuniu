@@ -23,6 +23,7 @@ class NiuniuPlugin(Star):
         self.cool_down_manager = CoolDownManager()
         # 统一所有message_gen引用
         # 初始化冷却时间记录器
+
         self.last_dajiao_time = defaultdict(dict)    # 群组打胶时间 {group_id: {user_id: timestamp}}
         self.invite_count = defaultdict(dict)        # 邀请计数 {group_id: {user_id: (timestamp, count)}}
         self.last_compare_time = defaultdict(
